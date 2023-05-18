@@ -10,7 +10,7 @@ public:
 	~Game();
 	void init();
 	void handle_events();
-	void update();
+	void update(char direction);
 	void render();
 	void clean();
 	bool get_is_running();

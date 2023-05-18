@@ -30,18 +30,41 @@ void Game::init() {
 	player = new Player("assets/frog.bmp", renderer);
 }
 void Game::handle_events() {
+	char direction = 'n';
 	SDL_Event event;
 	SDL_PollEvent(&event);
 	switch (event.type) {
 		case SDL_QUIT:
 			is_running = false;
 			break;
+		case SDL_KEYDOWN:
+			switch (event.key.keysym.sym) {
+				case SDLK_UP:
+				case SDLK_w:
+					direction = 'u';
+					break;
+				case SDLK_DOWN:
+				case SDLK_s:
+					direction = 'd';
+					break;
+				case SDLK_LEFT:
+				case SDLK_a:
+					direction = 'l';
+					break;
+				case SDLK_RIGHT:
+				case SDLK_d:
+					direction = 'r';
+					break;
+				default:
+					break;
+			}
 		default:
 			break;
 	}
+	update(direction);
 }
-void Game::update() {
-	player->update();
+void Game::update(char direction) {
+	player->update(direction);
 }
 void Game::render() {
 	SDL_RenderClear(renderer);

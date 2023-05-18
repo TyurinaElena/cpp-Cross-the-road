@@ -28,26 +28,23 @@ Player::Player(const char* filename, SDL_Renderer* ren) {
 	dst_rect.w = src_rect.h;
 }
 Player::~Player() {}
-//int Player::get_x() { return x; }
-//int Player::get_y() { return y; }
-void Player::update() {
-	//x = 64;
-	//y = 64;
-	dst_rect.x = x*CELL_SIZE;
-	dst_rect.y = y*CELL_SIZE;
+
+void Player::update(char direction) {
 	//std::string direction
-	//if (direction == "left") { 
-	//	if (x > 0) { x -= 1; }
-	//}
-	//else if (direction == "right") { 
-	//	if (x < MAP_SIZE) { x += 1; }
-	//}
-	//else if (direction == "down") {
-	//	if (y < MAP_SIZE) { y += 1; }
-	//}
-	//else {
-	//	if (x < MAP_SIZE) { y -= 1; }
-	//}
+	if (direction == 'l') { 
+		if (x > 0) { x -= 1; }
+	}
+	else if (direction == 'r') {
+		if (x < MAP_SIZE) { x += 1; }
+	}
+	else if (direction == 'd') {
+		if (y < MAP_SIZE) { y += 1; }
+	}
+	else if (direction == 'u') {
+		if (y > 0) { y -= 1; }
+	}
+	dst_rect.x = x * CELL_SIZE;
+	dst_rect.y = y * CELL_SIZE;
 }
 
 void Player::render() {
