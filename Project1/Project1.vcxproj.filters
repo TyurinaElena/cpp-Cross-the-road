@@ -24,6 +24,12 @@
     <ClCompile Include="Player.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="Car.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="CarManager.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -35,9 +41,24 @@
     <ClInclude Include="Player.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="Car.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="CarManager.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\frog.bmp">
+      <Filter>Исходные файлы</Filter>
+    </Image>
+    <Image Include="assets\car.bmp">
+      <Filter>Исходные файлы</Filter>
+    </Image>
+    <Image Include="assets\large_car.bmp">
+      <Filter>Исходные файлы</Filter>
+    </Image>
+    <Image Include="assets\small_car.bmp">
       <Filter>Исходные файлы</Filter>
     </Image>
   </ItemGroup>

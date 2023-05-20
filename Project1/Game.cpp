@@ -1,25 +1,27 @@
 #include "Game.h"
 #include <iostream>
+#include <list>
+#include <array>
 #include "globals.h"
 #include "Player.h" 
+#include "CarManager.h"
 
 Player* player;
+CarManager* car_manager;
 
-Game::Game() {}
-Game::~Game() {}
+Game::Game() {
+	init();
+}
+//Game::~Game() {}
 void Game::init() {
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
 		std::cout << "SDL init-ed!!!!" << std::endl;
 		
 		window = SDL_CreateWindow("Cross the Road", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 			(MAP_SIZE+1) * CELL_SIZE, (MAP_SIZE+1) * CELL_SIZE, SDL_WINDOW_SHOWN);
-		if (window) {
-			std::cout << "window created!!!!" << std::endl;
-		}
 		renderer = SDL_CreateRenderer(window, -1, 0);
 		if (renderer) {
 			SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-			std::cout << "renderer created!!!!" << std::endl;
 		}
 		is_running = true;
 	}
@@ -28,6 +30,7 @@ void Game::init() {
 	}
 
 	player = new Player("assets/frog.bmp", renderer);
+	car_manager = new CarManager(renderer);
 }
 void Game::handle_events() {
 	char direction = 'n';
@@ -65,17 +68,19 @@ void Game::handle_events() {
 }
 void Game::update(char direction) {
 	player->update(direction);
+	car_manager->update();
 }
 void Game::render() {
 	SDL_RenderClear(renderer);
 	player->render();
+	car_manager->render();
 	SDL_RenderPresent(renderer);
 }
 void Game::clean() {
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);
 	SDL_Quit();
-	std::cout << "ge-mu o-ba da yo. kimi mo boku mo." << std::endl;
-
+	delete[] player;
+	delete[] car_manager;
 }
 bool Game::get_is_running() {return is_running;}

@@ -11,12 +11,6 @@ Player::Player(const char* filename, SDL_Renderer* ren) {
 	SDL_Surface* img = SDL_LoadBMP(filename);
 	SDL_SetColorKey(img, SDL_TRUE, SDL_MapRGB(img->format, 255, 0, 0));
 	texture = SDL_CreateTextureFromSurface(ren, img);
-	if (texture) {
-		std::cout << "the frog is here" << std::endl;
-	}
-	else {
-		std::cout << "i don't know where's the frog, dude..." << std::endl;
-	}
 	SDL_FreeSurface(img);
 	src_rect.h = CELL_SIZE;
 	src_rect.w = CELL_SIZE;
@@ -25,9 +19,9 @@ Player::Player(const char* filename, SDL_Renderer* ren) {
 	dst_rect.x = 0 ;
 	dst_rect.y = 0 ;
 	dst_rect.h = src_rect.h;
-	dst_rect.w = src_rect.h;
+	dst_rect.w = src_rect.w;
 }
-Player::~Player() {}
+//Player::~Player() {}
 
 void Player::update(char direction) {
 	//std::string direction

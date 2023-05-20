@@ -6,7 +6,7 @@
 class Player {
 public:
 	Player(const char* filename, SDL_Renderer* ren);
-	~Player();
+	//~Player();
 	void update(char direction);
 	void render();
 private:
