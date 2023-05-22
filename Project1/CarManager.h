@@ -13,7 +13,7 @@ public:
 	CarManager(SDL_Renderer* renderer);
 	void create_level();
 	void add_cars(int i, short speed, short direction);
-	void update();
+	void update(Player& i_player);
 	void render();
 };
 

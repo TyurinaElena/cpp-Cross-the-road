@@ -68,7 +68,7 @@ void Game::handle_events() {
 }
 void Game::update(char direction) {
 	player->update(direction);
-	car_manager->update();
+	car_manager->update(*player);
 }
 void Game::render() {
 	SDL_RenderClear(renderer);

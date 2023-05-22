@@ -45,14 +45,15 @@ short Car::get_direction() {
 short Car::get_speed() {
 	return speed;
 }
-//SDL_Rect Car::get_col_rect() {
-//	SDL_Rect col_rect;
-//	int d = 5;
-//	col_rect.x = x + d;
-//	col_rect.y = y;
-//	col_rect.h = dst_rect.h;
-//	col_rect.w = dst_rect.w - d*2;
-//}
+const SDL_Rect Car::get_col_rect() {
+	SDL_Rect col_rect;
+	int d = 5;
+	col_rect.x = x + d;
+	col_rect.y = y + d;
+	col_rect.h = dst_rect.h-d*2;
+	col_rect.w = dst_rect.w - d*2;
+	return col_rect;
+}
 void Car::update() {
 	x += speed*direction/3;
 	dst_rect.x = x;

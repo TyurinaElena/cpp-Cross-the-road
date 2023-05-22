@@ -2,6 +2,7 @@
 #include <iostream>
 #include <time.h>
 #include "CarManager.h"
+#include <SDL.h>
 
 CarManager::CarManager(SDL_Renderer* ren) {
 	renderer = ren;
@@ -52,14 +53,21 @@ void CarManager::add_cars(int i, short speed, short direction) {
 		}
 	}
 }
-void CarManager::update() {
+void CarManager::update(Player& i_player) {
 	for (int i = 0; i < MAP_SIZE-1; i++) {
 		if (!Cars[i].empty()) {
-			for (Car& car : Cars[i]) { car.update(); }
+			for (Car& car : Cars[i]) {
+				car.update();
+				if (i_player.is_colliding(car)) {
+					std::cout << "colision" << std::endl;
+				}
+				/*if (SDL_HasIntersection(i_player.get_rect(), car.get_col_rect())) {
+					i_player.set_alive();
+				}*/
+			}
 			if (Cars[i].front().get_direction() == 1) {
 				if (Cars[i].front().get_x() > (MAP_SIZE + 1) * CELL_SIZE) {
 					Cars[i].pop_front();
-					std::cout << "poped right; " << " ";
 				}
 				if (Cars[i].back().get_x() > 3*CELL_SIZE) {
 					add_cars(i+1, Cars[i].back().get_speed(), Cars[i].back().get_direction());
@@ -68,7 +76,6 @@ void CarManager::update() {
 			else {
 				if (Cars[i].front().get_x() < -3 * CELL_SIZE) {
 					Cars[i].pop_front();
-					std::cout << "poped left; " << " ";
 				}
 				if (Cars[i].back().get_x() < (MAP_SIZE-4)*CELL_SIZE) {
 					add_cars(i + 1, Cars[i].back().get_speed(), Cars[i].back().get_direction());

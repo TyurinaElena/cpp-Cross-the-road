@@ -18,7 +18,7 @@ public:
 	int get_x();
 	short get_direction();
 	short get_speed();
-	//SDL_Rect get_col_rect();
+	const SDL_Rect get_col_rect();
 	void update();
 	void render();
 	
