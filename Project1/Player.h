@@ -1,7 +1,6 @@
 #pragma once
 #include <SDL.h>
-//#include <SDL_image.h>
-//#include "Game.h"
+#include <string>
 #include "Car.h"
 
 class Player {
@@ -12,16 +11,22 @@ public:
 	void render();
 	void set_alive();
 	bool get_alive();
+	std::string get_score();
 	bool is_colliding(Car& i_car);
 	const SDL_Rect get_rect();
+	void reset();
 
 private:
 	int x;
 	int y;
 	bool alive;
+	int score;
+	int path;
 	SDL_Texture* texture;
-	SDL_Rect src_rect, dst_rect;
+	SDL_Rect rect;
 	SDL_Renderer* renderer;
+	Uint32 reset_time;
+	void reset_timer();
 	
 
 };

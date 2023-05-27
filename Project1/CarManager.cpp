@@ -34,7 +34,7 @@ void CarManager::create_level() {
 					Cars[i - 1].push_front(Car(j, i, size, speed, direction, renderer));
 				}
 				else {Cars[i - 1].push_back(Car(j, i, size, speed, direction, renderer));}
-				cells_to_skip = size + 3;
+				cells_to_skip = size + 4;
 			}
 		}
 	}
@@ -59,7 +59,7 @@ void CarManager::update(Player& i_player) {
 			for (Car& car : Cars[i]) {
 				car.update();
 				if (i_player.is_colliding(car)) {
-					std::cout << "colision" << std::endl;
+					i_player.set_alive();
 				}
 				/*if (SDL_HasIntersection(i_player.get_rect(), car.get_col_rect())) {
 					i_player.set_alive();
@@ -69,12 +69,12 @@ void CarManager::update(Player& i_player) {
 				if (Cars[i].front().get_x() > (MAP_SIZE + 1) * CELL_SIZE) {
 					Cars[i].pop_front();
 				}
-				if (Cars[i].back().get_x() > 3*CELL_SIZE) {
+				if (Cars[i].back().get_x() > 4*CELL_SIZE) {
 					add_cars(i+1, Cars[i].back().get_speed(), Cars[i].back().get_direction());
 				}
 			}
 			else {
-				if (Cars[i].front().get_x() < -3 * CELL_SIZE) {
+				if (Cars[i].front().get_x() < -4 * CELL_SIZE) {
 					Cars[i].pop_front();
 				}
 				if (Cars[i].back().get_x() < (MAP_SIZE-4)*CELL_SIZE) {

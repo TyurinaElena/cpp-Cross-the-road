@@ -6,6 +6,8 @@
 #include "Player.h" 
 #include "CarManager.h"
 
+
+
 Player* player;
 CarManager* car_manager;
 
@@ -14,15 +16,23 @@ Game::Game() {
 }
 //Game::~Game() {}
 void Game::init() {
-	if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
-		std::cout << "SDL init-ed!!!!" << std::endl;
+	if (SDL_Init(SDL_INIT_EVERYTHING) == 0 && TTF_Init()== 0) {
+		std::cout << "SDL init-ed!!!! And ttf" << std::endl;
 		
 		window = SDL_CreateWindow("Cross the Road", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-			(MAP_SIZE+1) * CELL_SIZE, (MAP_SIZE+1) * CELL_SIZE, SDL_WINDOW_SHOWN);
-		renderer = SDL_CreateRenderer(window, -1, 0);
+			(MAP_SIZE+1) * CELL_SIZE, (MAP_SIZE+2) * CELL_SIZE, SDL_WINDOW_SHOWN);
+		renderer = SDL_CreateRenderer(window, -1, 0); 
 		if (renderer) {
 			SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 		}
+		font = TTF_OpenFont("assets/BarcadeBrawlRegular.ttf", 14);
+		if (font) {
+			std::cout << "it worked!!" << std::endl;
+		}
+		text_rect.x = CELL_SIZE;
+		text_rect.y = CELL_SIZE * (MAP_SIZE+1);
+		text_rect.w = CELL_SIZE;
+		text_rect.h = CELL_SIZE / 3;
 		is_running = true;
 	}
 	else {
@@ -74,6 +84,13 @@ void Game::render() {
 	SDL_RenderClear(renderer);
 	player->render();
 	car_manager->render();
+	SDL_Surface* surf_text = TTF_RenderText_Solid(font, player->get_score().c_str(), {255,255,255});
+	SDL_Texture* text = SDL_CreateTextureFromSurface(renderer, surf_text);
+	SDL_FreeSurface(surf_text);
+	SDL_RenderCopy(renderer, text, NULL, &text_rect);
+	SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+	SDL_RenderDrawRect(renderer, &text_rect);
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderPresent(renderer);
 }
 void Game::clean() {

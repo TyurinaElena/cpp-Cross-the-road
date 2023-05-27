@@ -10,7 +10,7 @@ private:
 	double speed;
 	short direction;
 	SDL_Texture* texture;
-	SDL_Rect src_rect, dst_rect;
+	SDL_Rect rect;
 	SDL_Renderer* renderer;
 
 public:

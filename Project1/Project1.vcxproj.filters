@@ -62,4 +62,9 @@
       <Filter>Исходные файлы</Filter>
     </Image>
   </ItemGroup>
+  <ItemGroup>
+    <Font Include="assets\BarcadeBrawlRegular.ttf">
+      <Filter>Исходные файлы</Filter>
+    </Font>
+  </ItemGroup>
 </Project>

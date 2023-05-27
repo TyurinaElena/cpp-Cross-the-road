@@ -24,14 +24,10 @@ Car::Car( int j, int i, short sz, short spd, short dir, SDL_Renderer* ren) {
 	}
 	texture = SDL_CreateTextureFromSurface(ren, img);
 	SDL_FreeSurface(img);
-	src_rect.h = CELL_SIZE;
-	src_rect.w = CELL_SIZE*size;
-	src_rect.x = 0;
-	src_rect.y = 0;
-	dst_rect.x = x;
-	dst_rect.y = y;
-	dst_rect.h = src_rect.h;
-	dst_rect.w = src_rect.w;
+	rect.x = x;
+	rect.y = y;
+	rect.h = CELL_SIZE;
+	rect.w = CELL_SIZE * size;
 }
 
 int Car::get_x() {
@@ -50,15 +46,15 @@ const SDL_Rect Car::get_col_rect() {
 	int d = 5;
 	col_rect.x = x + d;
 	col_rect.y = y + d;
-	col_rect.h = dst_rect.h-d*2;
-	col_rect.w = dst_rect.w - d*2;
+	col_rect.h = rect.h-d*2;
+	col_rect.w = rect.w - d*2;
 	return col_rect;
 }
 void Car::update() {
 	x += speed*direction/3;
-	dst_rect.x = x;
+	rect.x = x;
 }
 
 void Car::render() {
-	SDL_RenderCopy(renderer, texture, &src_rect, &dst_rect);
+	SDL_RenderCopy(renderer, texture, NULL, &rect);
 }
