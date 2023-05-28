@@ -12,9 +12,12 @@ public:
 	void set_alive();
 	bool get_alive();
 	std::string get_score();
+	int get_lives();
 	bool is_colliding(Car& i_car);
 	const SDL_Rect get_rect();
 	void reset();
+	void set_reset_time();
+	void init();
 
 private:
 	int x;
@@ -22,6 +25,7 @@ private:
 	bool alive;
 	int score;
 	int path;
+	int lives;
 	SDL_Texture* texture;
 	SDL_Rect rect;
 	SDL_Renderer* renderer;

@@ -15,11 +15,14 @@ public:
 	void render();
 	void clean();
 	bool get_is_running();
+	short get_status();
 private:
 	void init();
+	short status;
 	bool is_running;
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	TTF_Font* font;
-	SDL_Rect text_rect;
+	void render_text(const char* text, SDL_Rect rect);
+	void render_endgame_box();
 };

@@ -15,20 +15,13 @@ int count_digit(int number) {
 
 Player::Player(const char* filename, SDL_Renderer* ren) {
 	renderer = ren;
-	x = MAP_SIZE/2;
-	y = MAP_SIZE;
-	alive = true;
 	SDL_Surface* img = SDL_LoadBMP(filename);
 	SDL_SetColorKey(img, SDL_TRUE, SDL_MapRGB(img->format, 255, 0, 0));
 	texture = SDL_CreateTextureFromSurface(ren, img);
 	SDL_FreeSurface(img);
-	rect.x = 0 ;
-	rect.y = 0 ;
 	rect.h = CELL_SIZE;
 	rect.w = CELL_SIZE;
-	score = 0;
-	path = 0;
-
+	init();
 }
 //Player::~Player() {}
 
@@ -61,7 +54,7 @@ void Player::update(char direction) {
 		rect.y = y * CELL_SIZE;
 	}
 	else {
-		reset();
+		reset_timer();
 	}
 }
 
@@ -84,6 +77,10 @@ std::string Player::get_score()
 	std::string str = std::string(5-count, '0');
 	str += std::to_string(score);
 	return str;
+}
+int Player::get_lives()
+{
+	return lives;
 }
 bool Player::is_colliding(Car& i_car)
 {
@@ -111,7 +108,30 @@ void Player::reset()
 	}
 	else {
 		alive = true;
+		lives -= 1;
 	}
+
+	/*else {
+		init();
+	}*/
+}
+
+void Player::set_reset_time()
+{
+	reset_time = SDL_GetTicks();
+}
+
+void Player::init()
+{
+	x = MAP_SIZE / 2;
+	y = MAP_SIZE;
+	alive = true;
+	rect.x = 0;
+	rect.y = 0;
+
+	score = 0;
+	path = 0;
+	lives = 3;
 }
 
 void Player::reset_timer()

@@ -60,6 +60,7 @@ void CarManager::update(Player& i_player) {
 				car.update();
 				if (i_player.is_colliding(car)) {
 					i_player.set_alive();
+					i_player.set_reset_time();
 				}
 				/*if (SDL_HasIntersection(i_player.get_rect(), car.get_col_rect())) {
 					i_player.set_alive();
