@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Car.h"
 #include "globals.h"
+#include "support.h"
 
 Car::Car( int j, int i, short sz, short spd, short dir, SDL_Renderer* ren) {
 	renderer = ren;
@@ -9,21 +10,28 @@ Car::Car( int j, int i, short sz, short spd, short dir, SDL_Renderer* ren) {
 	size = sz;
 	speed = spd;
 	direction = dir;
-	SDL_Surface* img;
-	if (size == 1) {
-		img = SDL_LoadBMP("assets/small_car.bmp");
-		SDL_SetColorKey(img, SDL_TRUE, SDL_MapRGB(img->format, 255, 0, 255));
-	}
-	else if (size == 2) {
-		img = SDL_LoadBMP("assets/car.bmp");
-		SDL_SetColorKey(img, SDL_TRUE, SDL_MapRGB(img->format, 255, 0, 0));
+	if (direction == 1) {
+		if (size == 1) {
+			texture = load_texture("assets/small_car.bmp", renderer, 255, 0, 255);
+		}
+		else if (size == 2) {
+			texture = load_texture("assets/car.bmp", renderer, 255, 0, 0);
+		}
+		else {
+			texture = load_texture("assets/large_car.bmp", renderer, 255, 0, 255);
+		}
 	}
 	else {
-		img = SDL_LoadBMP("assets/large_car.bmp");
-		SDL_SetColorKey(img, SDL_TRUE, SDL_MapRGB(img->format, 255, 0, 255));
+		if (size == 1) {
+			texture = load_texture("assets/small_car_l.bmp", renderer, 255, 0, 255);
+		}
+		else if (size == 2) {
+			texture = load_texture("assets/car_l.bmp", renderer, 255, 0, 0);
+		}
+		else {
+			texture = load_texture("assets/large_car_l.bmp", renderer, 255, 0, 255);
+		}
 	}
-	texture = SDL_CreateTextureFromSurface(ren, img);
-	SDL_FreeSurface(img);
 	rect.x = x;
 	rect.y = y;
 	rect.h = CELL_SIZE;

@@ -5,13 +5,13 @@
 
 class Player {
 public:
-	Player(const char* filename, SDL_Renderer* ren);
+	Player(SDL_Renderer* ren);
 	//~Player();
 	void update(char direction);
 	void render();
 	void set_alive();
 	bool get_alive();
-	std::string get_score();
+	int get_score();
 	int get_lives();
 	bool is_colliding(Car& i_car);
 	const SDL_Rect get_rect();
@@ -26,7 +26,11 @@ private:
 	int score;
 	int path;
 	int lives;
-	SDL_Texture* texture;
+	char curr_dir;
+	SDL_Texture* texture_u;
+	SDL_Texture* texture_r;
+	SDL_Texture* texture_l;
+	SDL_Texture* texture_d;
 	SDL_Rect rect;
 	SDL_Renderer* renderer;
 	Uint32 reset_time;

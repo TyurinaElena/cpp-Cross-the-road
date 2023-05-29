@@ -139,6 +139,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="support.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Car.h" />
@@ -146,15 +147,20 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="globals.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="support.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\car.bmp" />
     <Image Include="assets\frog.bmp" />
+    <Image Include="assets\heart.bmp" />
     <Image Include="assets\large_car.bmp" />
     <Image Include="assets\small_car.bmp" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="assets\BarcadeBrawlRegular.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="records.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

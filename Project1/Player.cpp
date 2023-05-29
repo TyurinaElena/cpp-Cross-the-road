@@ -1,24 +1,17 @@
 //#include <SDL.h>
 //#include <SDL2/SDL_image.h>
 #include <iostream>
+#include "support.h"
 #include "Player.h"
 #include "globals.h"
 
-int count_digit(int number) {
-	int count = 0;
-	while (number != 0) {
-		number = number / 10;
-		count++;
-	}
-	return count > 0 ? count : 1;
-}
 
-Player::Player(const char* filename, SDL_Renderer* ren) {
+Player::Player(SDL_Renderer* ren) {
 	renderer = ren;
-	SDL_Surface* img = SDL_LoadBMP(filename);
-	SDL_SetColorKey(img, SDL_TRUE, SDL_MapRGB(img->format, 255, 0, 0));
-	texture = SDL_CreateTextureFromSurface(ren, img);
-	SDL_FreeSurface(img);
+	texture_u = load_texture("assets/frog.bmp", renderer, 255, 0, 0);
+	texture_l = load_texture("assets/frog_l.bmp", renderer, 255, 0, 0);
+	texture_r = load_texture("assets/frog_r.bmp", renderer, 255, 0, 0);
+	texture_d = load_texture("assets/frog_d.bmp", renderer, 255, 0, 0);
 	rect.h = CELL_SIZE;
 	rect.w = CELL_SIZE;
 	init();
@@ -30,12 +23,15 @@ void Player::update(char direction) {
 	if (alive) {
 		if (direction == 'l') {
 			if (x > 0) { x -= 1; }
+			curr_dir = direction;
 		}
 		else if (direction == 'r') {
 			if (x < MAP_SIZE) { x += 1; }
+			curr_dir = direction;
 		}
 		else if (direction == 'd') {
 			if (y < MAP_SIZE) { y += 1; }
+			curr_dir = direction;
 		}
 		else if (direction == 'u') {
 			if (y + path <= MAP_SIZE) {
@@ -46,6 +42,7 @@ void Player::update(char direction) {
 				y -= 1;
 				if (y == 0) { reset_time = SDL_GetTicks(); }
 			}
+			curr_dir = direction;
 		}
 		if (y == 0) {
 			reset_timer();
@@ -59,7 +56,18 @@ void Player::update(char direction) {
 }
 
 void Player::render() {
-	SDL_RenderCopy(renderer, texture, NULL, &rect);
+	if (curr_dir == 'd') {
+		SDL_RenderCopy(renderer, texture_d, NULL, &rect);
+	}
+	else if (curr_dir == 'l') {
+		SDL_RenderCopy(renderer, texture_l, NULL, &rect);
+	}
+	else if (curr_dir == 'r') {
+		SDL_RenderCopy(renderer, texture_r, NULL, &rect);
+	}
+	else {
+		SDL_RenderCopy(renderer, texture_u, NULL, &rect);
+	}
 }
 
 void Player::set_alive()
@@ -71,12 +79,9 @@ void Player::set_alive()
 bool Player::get_alive() {
 	return alive;
 }
-std::string Player::get_score()
+int Player::get_score()
 {
-	int count = count_digit(score);
-	std::string str = std::string(5-count, '0');
-	str += std::to_string(score);
-	return str;
+	return score;
 }
 int Player::get_lives()
 {
@@ -110,10 +115,6 @@ void Player::reset()
 		alive = true;
 		lives -= 1;
 	}
-
-	/*else {
-		init();
-	}*/
 }
 
 void Player::set_reset_time()
@@ -132,6 +133,7 @@ void Player::init()
 	score = 0;
 	path = 0;
 	lives = 3;
+	curr_dir = 'u';
 }
 
 void Player::reset_timer()

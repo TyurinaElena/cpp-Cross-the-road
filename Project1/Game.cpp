@@ -7,7 +7,6 @@
 #include "CarManager.h"
 
 
-
 Player* player;
 CarManager* car_manager;
 
@@ -29,14 +28,19 @@ void Game::init() {
 		if (font) {
 			std::cout << "it worked!!" << std::endl;
 		}
+		SDL_Surface* img = SDL_LoadBMP("assets/heart.bmp");
+		SDL_SetColorKey(img, SDL_TRUE, SDL_MapRGB(img->format, 0, 0, 255));
+		live_texture = SDL_CreateTextureFromSurface(renderer, img);
+		SDL_FreeSurface(img);
 		is_running = true;
 		status = 0;
+		//sort_file(100);
 	}
 	else {
 		is_running = false;
 	}
 
-	player = new Player("assets/frog.bmp", renderer);
+	player = new Player(renderer);
 	car_manager = new CarManager(renderer);
 }
 void Game::render_text(const char* text, SDL_Rect rect)
@@ -63,9 +67,10 @@ void Game::render_endgame_box()
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	render_text("Game Over", { CELL_SIZE * 3, CELL_SIZE * 7/2, CELL_SIZE * 5, CELL_SIZE});
 	render_text("last:", { CELL_SIZE * 3, CELL_SIZE * 5, CELL_SIZE, CELL_SIZE / 4 });
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-	render_text(player->get_score().c_str(), {CELL_SIZE * 3, CELL_SIZE * 11/2, CELL_SIZE*2, CELL_SIZE*2 / 3});
+	//SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+	render_text(num_to_str(player->get_score()).c_str(), {CELL_SIZE * 3, CELL_SIZE * 11/2, CELL_SIZE*2, CELL_SIZE*2 / 3});
 	render_text("best:", { CELL_SIZE * 11/2, CELL_SIZE * 5, CELL_SIZE, CELL_SIZE / 4 });
+	render_text(num_to_str(best_res).c_str(), { CELL_SIZE * 11/2, CELL_SIZE * 11 / 2, CELL_SIZE * 2, CELL_SIZE * 2 / 3 });
 	render_text("press space to continue", { CELL_SIZE * 5/2, CELL_SIZE * 7, CELL_SIZE * 6, CELL_SIZE/4 });
 	render_text("press e to view records", { CELL_SIZE * 5 / 2, CELL_SIZE * 15/2, CELL_SIZE * 6, CELL_SIZE / 4 });
 	SDL_RenderPresent(renderer);
@@ -112,6 +117,7 @@ void Game::handle_events() {
 		update(direction);
 		if (!player->get_alive() && (player->get_lives() == 0)) {
 			status = 1;
+			best_res = sort_file(player->get_score());
 			render_endgame_box();
 		}
 	}
@@ -136,16 +142,16 @@ void Game::update(char direction) {
 	car_manager->update(*player);
 }
 void Game::render() {
-	SDL_Rect text_rect;
 	if (status == 0) {
 		SDL_RenderClear(renderer);
 		player->render();
 		car_manager->render();
-		text_rect.x = CELL_SIZE;
-		text_rect.y = CELL_SIZE * (MAP_SIZE + 1);
-		text_rect.w = CELL_SIZE;
-		text_rect.h = CELL_SIZE / 3;
-		render_text(player->get_score().c_str(), text_rect);
+		render_text(num_to_str(player->get_score()).c_str(), {CELL_SIZE, CELL_SIZE*(MAP_SIZE + 1), CELL_SIZE, CELL_SIZE/3});
+		SDL_Rect rect;
+		for (int i = 1; i <= player->get_lives(); i++) {
+			rect = { 10*CELL_SIZE - i*CELL_SIZE*2/3, CELL_SIZE * (MAP_SIZE + 1), CELL_SIZE/2, CELL_SIZE / 2 };
+			SDL_RenderCopy(renderer, live_texture, NULL, &rect);
+		}
 		SDL_RenderPresent(renderer);
 	}
 }

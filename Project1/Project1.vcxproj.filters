@@ -30,6 +30,9 @@
     <ClCompile Include="CarManager.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="support.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -47,6 +50,9 @@
     <ClInclude Include="CarManager.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="support.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\frog.bmp">
@@ -61,10 +67,18 @@
     <Image Include="assets\small_car.bmp">
       <Filter>Исходные файлы</Filter>
     </Image>
+    <Image Include="assets\heart.bmp">
+      <Filter>Исходные файлы</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Font Include="assets\BarcadeBrawlRegular.ttf">
       <Filter>Исходные файлы</Filter>
     </Font>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="records.txt">
+      <Filter>Исходные файлы</Filter>
+    </Text>
   </ItemGroup>
 </Project>
