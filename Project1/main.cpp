@@ -1,7 +1,7 @@
 #include <SDL.h>
 #include "Game.h"
 #include "globals.h"
-#include <clocale>
+//#include <clocale>
 
 Game* game = nullptr;
 

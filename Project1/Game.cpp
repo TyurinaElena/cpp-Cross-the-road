@@ -67,9 +67,10 @@ void Game::render_endgame_box()
 	render_text("Game Over", { CELL_SIZE * 3, CELL_SIZE * 7/2, CELL_SIZE * 5, CELL_SIZE});
 	render_text("очки:", { CELL_SIZE * 3, CELL_SIZE * 5, CELL_SIZE, CELL_SIZE / 4 });
 	render_text(num_to_str(player->get_score()).c_str(), {CELL_SIZE * 3, CELL_SIZE * 11/2, CELL_SIZE*2, CELL_SIZE*2 / 3});
-	render_text("рекорд:", { CELL_SIZE * 11/2, CELL_SIZE * 5, CELL_SIZE, CELL_SIZE / 4 });
+	render_text("рекорд:", { CELL_SIZE * 11/2, CELL_SIZE * 5, CELL_SIZE*3/2, CELL_SIZE / 4 });
 	render_text(num_to_str(best_res).c_str(), { CELL_SIZE * 11/2, CELL_SIZE * 11 / 2, CELL_SIZE * 2, CELL_SIZE * 2 / 3 });
-	render_text("нажмите space чтобы продолжить", { CELL_SIZE * 5/2, CELL_SIZE * 7, CELL_SIZE * 6, CELL_SIZE/4 });
+	render_text("нажмите space чтобы продолжить", { CELL_SIZE * 5/2, CELL_SIZE * 13/2, CELL_SIZE * 6, CELL_SIZE/4 });
+	render_text("нажмите q чтобы узнать об авторе", { CELL_SIZE * 5 / 2, CELL_SIZE * 7, CELL_SIZE * 6, CELL_SIZE / 4 });
 	render_text("нажмите e чтобы открыть рекорды", { CELL_SIZE * 5 / 2, CELL_SIZE * 15/2, CELL_SIZE * 6, CELL_SIZE / 4 });
 	SDL_RenderPresent(renderer);
 }
@@ -98,11 +99,39 @@ void Game::render_record_table()
 			file.getline(line, 6);
 			temp = line;
 			render_text(num_to_str(stoi(temp)).c_str(), {CELL_SIZE * 3 + i*3*CELL_SIZE, 
-				CELL_SIZE * 7/2+j*CELL_SIZE*4/5, CELL_SIZE * 2, CELL_SIZE / 3});
+				CELL_SIZE * 7/2+j*CELL_SIZE*7/10, CELL_SIZE * 2, CELL_SIZE / 3});
 		}
 	}
 	file.close();
-	render_text("нажмите space чтобы продолжить", { CELL_SIZE * 5 / 2, CELL_SIZE * 15 / 2, 
+	render_text("нажмите space чтобы продолжить", { CELL_SIZE * 5 / 2, CELL_SIZE * 7, 
+		CELL_SIZE * 6, CELL_SIZE / 4 });
+	render_text("нажмите b чтобы вернуться назад", { CELL_SIZE * 5 / 2, CELL_SIZE * 15 / 2,
+		CELL_SIZE * 6, CELL_SIZE / 4 });
+	SDL_RenderPresent(renderer);
+}
+
+void Game::render_authors_page()
+{
+	int th = 5;
+	SDL_Rect rects[] = {
+		{CELL_SIZE * 2, CELL_SIZE * 3, CELL_SIZE * 7, th},
+		{CELL_SIZE * 2, CELL_SIZE * 8 - th, CELL_SIZE * 7, th},
+		{CELL_SIZE * 2, CELL_SIZE * 3, th, CELL_SIZE * 5},
+		{CELL_SIZE * 9 - th, CELL_SIZE * 3, th, CELL_SIZE * 5},
+	};
+	SDL_Rect rect = { CELL_SIZE * 2, CELL_SIZE * 3, CELL_SIZE * 7, CELL_SIZE * 5 };
+	SDL_RenderFillRect(renderer, &rect);
+	SDL_SetRenderDrawColor(renderer, 0, 50, 75, 255);
+	SDL_RenderFillRects(renderer, rects, 4);
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+	render_text("автор:", { CELL_SIZE * 5 / 2, CELL_SIZE * 4,
+	CELL_SIZE, CELL_SIZE / 4 });
+	render_text("Тюрина Елена Романовна", { CELL_SIZE * 5 / 2, CELL_SIZE * 9/2,
+	CELL_SIZE*4, CELL_SIZE / 3 });
+	render_text("группа 2-МД-15", { CELL_SIZE * 5 / 2, CELL_SIZE * 11/2, CELL_SIZE*2, CELL_SIZE / 4 });
+	render_text("нажмите space чтобы продолжить", { CELL_SIZE * 5 / 2, CELL_SIZE * 7,
+		CELL_SIZE * 6, CELL_SIZE / 4 });
+	render_text("нажмите b чтобы вернуться назад", { CELL_SIZE * 5 / 2, CELL_SIZE * 15 / 2,
 		CELL_SIZE * 6, CELL_SIZE / 4 });
 	SDL_RenderPresent(renderer);
 }
@@ -161,8 +190,13 @@ void Game::handle_events() {
 				player->init();
 				break;
 			case SDLK_e:
-				status = 1;
+				status = 2;
 				render_record_table();
+				break;
+			case SDLK_q:
+				status = 3;
+				render_authors_page();
+				break;
 			default:
 				break;
 			}
@@ -178,6 +212,9 @@ void Game::handle_events() {
 				status = 0;
 				player->init();
 				break;
+			case SDLK_b:
+				status = 1;
+				render_endgame_box();
 			default:
 				break;
 			}

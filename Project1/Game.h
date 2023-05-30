@@ -26,4 +26,6 @@ private:
 	void render_text(const char* text, SDL_Rect rect); 
 	void render_endgame_box(); //визуализация окна проигрыша
 	void render_record_table(); //визуализация таблицы рекордов
+	void render_authors_page(); //визуализация информации об авторе
+	
 };
