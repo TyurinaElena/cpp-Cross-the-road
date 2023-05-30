@@ -25,5 +25,3 @@ int main(int argc, char ** argv) {
 	delete game;
 	return 0;
 }
-//обрабатывать закрытие окна снаружи Game
-// или разделить свитчи в handle_events

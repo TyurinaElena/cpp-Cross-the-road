@@ -16,8 +16,6 @@ Game::Game() {
 }
 void Game::init() {
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0 && TTF_Init()== 0) {
-		std::cout << "SDL init-ed!!!! And ttf" << std::endl;
-		
 		window = SDL_CreateWindow("Cross the Road", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 			(MAP_SIZE+1) * CELL_SIZE, (MAP_SIZE+2) * CELL_SIZE, SDL_WINDOW_SHOWN);
 		renderer = SDL_CreateRenderer(window, -1, 0); 
@@ -25,8 +23,8 @@ void Game::init() {
 			SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 		}
 		font = TTF_OpenFont("assets/BarcadeBrawlRegular.ttf", 14);
-		if (font) {
-			std::cout << "it worked!!" << std::endl;
+		if (!font) {
+			std::cout << "couldn't find font." << std::endl;
 		}
 		SDL_Surface* img = SDL_LoadBMP("assets/heart.bmp");
 		SDL_SetColorKey(img, SDL_TRUE, SDL_MapRGB(img->format, 0, 0, 255));
@@ -36,6 +34,7 @@ void Game::init() {
 		status = 0;
 	}
 	else {
+		std::cout << "couldn't initialize SDL." << std::endl;
 		is_running = false;
 	}
 
@@ -194,12 +193,19 @@ void Game::update(char direction) {
 void Game::render() {
 	if (status == 0) {
 		SDL_RenderClear(renderer);
+		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+		SDL_Rect rect = { 0, 11 * CELL_SIZE, 11 * CELL_SIZE, 2 };
+		SDL_RenderFillRect(renderer, &rect);
+		rect = { 0, 10 * CELL_SIZE, 11 * CELL_SIZE, 2 };
+		SDL_RenderFillRect(renderer, &rect);
+		rect = { 0, CELL_SIZE, 11 * CELL_SIZE, 2 };
+		SDL_RenderFillRect(renderer, &rect);
+		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 		player->render();
 		car_manager->render();
-		render_text(num_to_str(player->get_score()).c_str(), {CELL_SIZE, CELL_SIZE*(MAP_SIZE + 1), CELL_SIZE, CELL_SIZE/3});
-		SDL_Rect rect;
+		render_text(num_to_str(player->get_score()).c_str(), {CELL_SIZE, CELL_SIZE*(MAP_SIZE + 1)+10, CELL_SIZE*3/2, CELL_SIZE*2/5});
 		for (int i = 1; i <= player->get_lives(); i++) {
-			rect = { 10*CELL_SIZE - i*CELL_SIZE*2/3, CELL_SIZE * (MAP_SIZE + 1), CELL_SIZE/2, CELL_SIZE / 2 };
+			rect = { 10*CELL_SIZE - i*CELL_SIZE*2/3, CELL_SIZE * (MAP_SIZE + 1)+10, CELL_SIZE/2, CELL_SIZE / 2 };
 			SDL_RenderCopy(renderer, live_texture, NULL, &rect);
 		}
 		SDL_RenderPresent(renderer);

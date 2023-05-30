@@ -1,6 +1,3 @@
-//#include <SDL.h>
-//#include <SDL2/SDL_image.h>
-#include <iostream>
 #include "support.h"
 #include "Player.h"
 #include "globals.h"
@@ -16,10 +13,8 @@ Player::Player(SDL_Renderer* ren) {
 	rect.w = CELL_SIZE;
 	init();
 }
-//Player::~Player() {}
 
 void Player::update(char direction) {
-	//std::string direction
 	if (alive) {
 		if (direction == 'l') {
 			if (x > 0) { x -= 1; }
@@ -73,7 +68,6 @@ void Player::render() {
 void Player::set_alive()
 {
 	alive = false;
-	//std::cout << "you died" << std::endl;
 }
 
 bool Player::get_alive() {

@@ -1,5 +1,4 @@
 #include <fstream>
-#include <iostream>
 #include "support.h"
 
 int count_digit(int number) {
@@ -30,9 +29,6 @@ SDL_Texture* load_texture(const char* filename, SDL_Renderer* ren, int r, int g,
 int sort_file(int score) {
 	std::fstream file;
 	file.open("records.txt", std::fstream::in | std::fstream::out);
-	if (file.is_open()) {
-		std::cout << "file is opened" << std::endl;
-	}
 	
 	int n = 11;
 	std::string lines[11];

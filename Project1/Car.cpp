@@ -1,4 +1,3 @@
-#include <iostream>
 #include "Car.h"
 #include "globals.h"
 #include "support.h"

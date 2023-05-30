@@ -3,14 +3,11 @@
 #include <SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include "support.h"
-//#include "Player.h"
 
 class Game {
 	
 public:
 	Game();
-	//~Game();
-	;
 	void handle_events();
 	void update(char direction);
 	void render();

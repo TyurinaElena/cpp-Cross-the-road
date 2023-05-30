@@ -1,5 +1,4 @@
 #include <stdlib.h>
-#include <iostream>
 #include <time.h>
 #include "CarManager.h"
 #include <SDL.h>
@@ -16,7 +15,7 @@ void CarManager::create_level() {
 	for (int i = 1; i < MAP_SIZE; i++) {
 		speed = SPEED_MIN + rand() % (SPEED_MAX - SPEED_MIN + 1);
 		if (i > 1) {
-			while (speed == Cars[i-2].front().get_speed()) {
+			while (!Cars[i-2].empty() && speed == Cars[i - 2].front().get_speed()) {
 				speed = SPEED_MIN + rand() % (SPEED_MAX - SPEED_MIN + 1);
 			}
 		}
@@ -27,7 +26,7 @@ void CarManager::create_level() {
 				cells_to_skip--;
 				continue;
 			}
-			condition = rand() % 2;
+			j == 0 ? condition = 1 : condition = rand() % 2;
 			if (condition) {
 				size = 1 + rand() % (3);
 				if (direction == 1) {
@@ -62,9 +61,6 @@ void CarManager::update(Player& i_player) {
 					i_player.set_alive();
 					i_player.set_reset_time();
 				}
-				/*if (SDL_HasIntersection(i_player.get_rect(), car.get_col_rect())) {
-					i_player.set_alive();
-				}*/
 			}
 			if (Cars[i].front().get_direction() == 1) {
 				if (Cars[i].front().get_x() > (MAP_SIZE + 1) * CELL_SIZE) {
