@@ -16,6 +16,7 @@ Game::Game() {
 }
 void Game::init() {
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0 && TTF_Init()== 0) {
+		
 		window = SDL_CreateWindow("Cross the Road", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 			(MAP_SIZE+1) * CELL_SIZE, (MAP_SIZE+2) * CELL_SIZE, SDL_WINDOW_SHOWN);
 		renderer = SDL_CreateRenderer(window, -1, 0); 
@@ -43,7 +44,7 @@ void Game::init() {
 }
 void Game::render_text(const char* text, SDL_Rect rect)
 {
-	SDL_Surface* surf_text = TTF_RenderText_Solid(font, text, { 255,255,255 });
+	SDL_Surface* surf_text = TTF_RenderUTF8_Solid(font, text, { 255,255,255 });
 	SDL_Texture* t_text = SDL_CreateTextureFromSurface(renderer, surf_text);
 	SDL_FreeSurface(surf_text);
 	SDL_RenderCopy(renderer, t_text, NULL, &rect);
@@ -64,12 +65,12 @@ void Game::render_endgame_box()
 	SDL_RenderFillRects(renderer, rects, 4);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	render_text("Game Over", { CELL_SIZE * 3, CELL_SIZE * 7/2, CELL_SIZE * 5, CELL_SIZE});
-	render_text("last:", { CELL_SIZE * 3, CELL_SIZE * 5, CELL_SIZE, CELL_SIZE / 4 });
+	render_text("очки:", { CELL_SIZE * 3, CELL_SIZE * 5, CELL_SIZE, CELL_SIZE / 4 });
 	render_text(num_to_str(player->get_score()).c_str(), {CELL_SIZE * 3, CELL_SIZE * 11/2, CELL_SIZE*2, CELL_SIZE*2 / 3});
-	render_text("best:", { CELL_SIZE * 11/2, CELL_SIZE * 5, CELL_SIZE, CELL_SIZE / 4 });
+	render_text("рекорд:", { CELL_SIZE * 11/2, CELL_SIZE * 5, CELL_SIZE, CELL_SIZE / 4 });
 	render_text(num_to_str(best_res).c_str(), { CELL_SIZE * 11/2, CELL_SIZE * 11 / 2, CELL_SIZE * 2, CELL_SIZE * 2 / 3 });
-	render_text("press space to continue", { CELL_SIZE * 5/2, CELL_SIZE * 7, CELL_SIZE * 6, CELL_SIZE/4 });
-	render_text("press e to view records", { CELL_SIZE * 5 / 2, CELL_SIZE * 15/2, CELL_SIZE * 6, CELL_SIZE / 4 });
+	render_text("нажмите space чтобы продолжить", { CELL_SIZE * 5/2, CELL_SIZE * 7, CELL_SIZE * 6, CELL_SIZE/4 });
+	render_text("нажмите e чтобы открыть рекорды", { CELL_SIZE * 5 / 2, CELL_SIZE * 15/2, CELL_SIZE * 6, CELL_SIZE / 4 });
 	SDL_RenderPresent(renderer);
 }
 
@@ -101,7 +102,7 @@ void Game::render_record_table()
 		}
 	}
 	file.close();
-	render_text("press space to continue", { CELL_SIZE * 5 / 2, CELL_SIZE * 15 / 2, 
+	render_text("нажмите space чтобы продолжить", { CELL_SIZE * 5 / 2, CELL_SIZE * 15 / 2, 
 		CELL_SIZE * 6, CELL_SIZE / 4 });
 	SDL_RenderPresent(renderer);
 }

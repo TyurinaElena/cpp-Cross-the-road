@@ -75,6 +75,9 @@
     <Font Include="assets\BarcadeBrawlRegular.ttf">
       <Filter>Исходные файлы</Filter>
     </Font>
+    <Font Include="assets\Mr-Amazin Regular Type.otf">
+      <Filter>Исходные файлы</Filter>
+    </Font>
   </ItemGroup>
   <ItemGroup>
     <Text Include="records.txt">

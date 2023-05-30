@@ -1,13 +1,13 @@
 #include <SDL.h>
 #include "Game.h"
 #include "globals.h"
+#include <clocale>
 
 Game* game = nullptr;
 
 int main(int argc, char ** argv) {
 	Uint32 frame_start;
 	int frame_time;
-
 	game = new Game();
 	while (game->get_is_running()) {
 
