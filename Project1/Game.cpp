@@ -1,5 +1,6 @@
 #include "Game.h"
 #include <iostream>
+#include <fstream>
 #include <list>
 #include <array>
 #include "globals.h"
@@ -13,7 +14,6 @@ CarManager* car_manager;
 Game::Game() {
 	init();
 }
-//Game::~Game() {}
 void Game::init() {
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0 && TTF_Init()== 0) {
 		std::cout << "SDL init-ed!!!! And ttf" << std::endl;
@@ -34,7 +34,6 @@ void Game::init() {
 		SDL_FreeSurface(img);
 		is_running = true;
 		status = 0;
-		//sort_file(100);
 	}
 	else {
 		is_running = false;
@@ -67,12 +66,44 @@ void Game::render_endgame_box()
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	render_text("Game Over", { CELL_SIZE * 3, CELL_SIZE * 7/2, CELL_SIZE * 5, CELL_SIZE});
 	render_text("last:", { CELL_SIZE * 3, CELL_SIZE * 5, CELL_SIZE, CELL_SIZE / 4 });
-	//SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	render_text(num_to_str(player->get_score()).c_str(), {CELL_SIZE * 3, CELL_SIZE * 11/2, CELL_SIZE*2, CELL_SIZE*2 / 3});
 	render_text("best:", { CELL_SIZE * 11/2, CELL_SIZE * 5, CELL_SIZE, CELL_SIZE / 4 });
 	render_text(num_to_str(best_res).c_str(), { CELL_SIZE * 11/2, CELL_SIZE * 11 / 2, CELL_SIZE * 2, CELL_SIZE * 2 / 3 });
 	render_text("press space to continue", { CELL_SIZE * 5/2, CELL_SIZE * 7, CELL_SIZE * 6, CELL_SIZE/4 });
 	render_text("press e to view records", { CELL_SIZE * 5 / 2, CELL_SIZE * 15/2, CELL_SIZE * 6, CELL_SIZE / 4 });
+	SDL_RenderPresent(renderer);
+}
+
+void Game::render_record_table()
+{
+	int th = 5;
+	SDL_Rect rects[] = {
+		{CELL_SIZE * 2, CELL_SIZE * 3, CELL_SIZE * 7, th},
+		{CELL_SIZE * 2, CELL_SIZE * 8 - th, CELL_SIZE * 7, th},
+		{CELL_SIZE * 2, CELL_SIZE * 3, th, CELL_SIZE * 5},
+		{CELL_SIZE * 9 - th, CELL_SIZE * 3, th, CELL_SIZE * 5},
+	};
+	SDL_Rect rect = { CELL_SIZE * 2, CELL_SIZE * 3, CELL_SIZE * 7, CELL_SIZE * 5 };
+	SDL_RenderFillRect(renderer, &rect);
+	SDL_SetRenderDrawColor(renderer, 0, 50, 75, 255);
+	SDL_RenderFillRects(renderer, rects, 4);
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+	std::ifstream file("records.txt");
+	file.seekg(0);
+	int n = 5;
+	char line[6];
+	std::string temp;
+	for (int i = 0; i < 2; i++) {
+		for (int j = 0; j < n; j++) {
+			file.getline(line, 6);
+			temp = line;
+			render_text(num_to_str(stoi(temp)).c_str(), {CELL_SIZE * 3 + i*3*CELL_SIZE, 
+				CELL_SIZE * 7/2+j*CELL_SIZE*4/5, CELL_SIZE * 2, CELL_SIZE / 3});
+		}
+	}
+	file.close();
+	render_text("press space to continue", { CELL_SIZE * 5 / 2, CELL_SIZE * 15 / 2, 
+		CELL_SIZE * 6, CELL_SIZE / 4 });
 	SDL_RenderPresent(renderer);
 }
 
@@ -121,6 +152,24 @@ void Game::handle_events() {
 			render_endgame_box();
 		}
 	}
+	else if (status == 1) {
+		switch (event.type) {
+		case SDL_KEYDOWN:
+			switch (event.key.keysym.sym) {
+			case SDLK_SPACE:
+				status = 0;
+				player->init();
+				break;
+			case SDLK_e:
+				status = 1;
+				render_record_table();
+			default:
+				break;
+			}
+		default:
+			break;
+		}
+	}
 	else {
 		switch (event.type) {
 		case SDL_KEYDOWN:
@@ -136,6 +185,7 @@ void Game::handle_events() {
 			break;
 		}
 	}
+
 }
 void Game::update(char direction) {
 	player->update(direction);

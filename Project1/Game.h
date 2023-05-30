@@ -28,4 +28,5 @@ private:
 	void init();
 	void render_text(const char* text, SDL_Rect rect);
 	void render_endgame_box();
+	void render_record_table();
 };

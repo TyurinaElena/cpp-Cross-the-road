@@ -61,7 +61,6 @@ int sort_file(int score) {
 	file.write("", 0);
 	for (int i = 0; i < n-1; i++) {
 		file << lines[i] << std::endl;
-		std::cout << lines[i] << std::endl;
 	}
 	file.close();
 	return stoi(lines[0]);
