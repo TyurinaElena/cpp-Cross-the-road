@@ -1,7 +1,6 @@
 #include <SDL.h>
 #include "Game.h"
 #include "globals.h"
-//#include <clocale>
 
 Game* game = nullptr;
 
@@ -25,3 +24,4 @@ int main(int argc, char ** argv) {
 	delete game;
 	return 0;
 }
+

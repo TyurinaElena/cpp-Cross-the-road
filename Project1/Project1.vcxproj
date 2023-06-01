@@ -158,7 +158,6 @@
   </ItemGroup>
   <ItemGroup>
     <Font Include="assets\BarcadeBrawlRegular.ttf" />
-    <Font Include="assets\Mr-Amazin Regular Type.otf" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="records.txt" />

@@ -18,9 +18,9 @@ public:
 	int get_x();
 	short get_direction();
 	short get_speed();
-	const SDL_Rect get_col_rect();
-	void update();
-	void render();
+	const SDL_Rect get_col_rect(); //возвращает прямоугольник немного меньше чем rect
+	void update(); // передвижение машины в зависимости от скорости и направления
+	void render(); // визуализация
 	
 };
 

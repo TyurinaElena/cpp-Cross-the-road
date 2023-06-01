@@ -23,7 +23,7 @@ private:
 	SDL_Renderer* renderer;
 	TTF_Font* font;
 	void init(); // вызывается при создании экземпляра
-	void render_text(const char* text, SDL_Rect rect); 
+	void render_text(const char* text, SDL_Rect rect); //отображение текста в виде "0хххх"
 	void render_endgame_box(); //визуализация окна проигрыша
 	void render_record_table(); //визуализация таблицы рекордов
 	void render_authors_page(); //визуализация информации об авторе
